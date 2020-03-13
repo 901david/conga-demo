@@ -1,0 +1,28 @@
+.main {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: auto;
+  padding: 15px;
+}
+
+.main > * {
+  margin: 5px 0;
+}
+
+.header-wrapper,
+.contacts-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 15px;
+  background: white;
+}
+
+.contacts-wrapper {
+  margin-bottom: 25px;
+}
+
+.company-name {
+  cursor: pointer;
+}
