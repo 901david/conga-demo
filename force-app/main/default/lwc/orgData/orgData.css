@@ -11,18 +11,31 @@
   margin: 5px 0;
 }
 
-.header-wrapper,
-.contacts-wrapper {
+.header-wrapper {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 15px 1fr 15px 1fr;
   grid-gap: 15px;
   background: white;
 }
 
 .contacts-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 15px;
+  background: white;
   margin-bottom: 25px;
+}
+
+.customer-success,
+.application-developer {
+  text-align: center;
 }
 
 .company-name {
   cursor: pointer;
+}
+
+.mid-section-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }

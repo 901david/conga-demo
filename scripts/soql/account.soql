@@ -3,4 +3,5 @@
 //     query text and running the command:
 //     SFDX: Execute SOQL Query with Currently Selected Text
 
-SELECT Id, Name FROM Account;
+SELECT LastName, Title FROM Contact WHERE AccountId='0012F00000al0CtQAI' AND Title LIKE 'Customer Success'
+SELECT LastName, Title FROM Contact WHERE AccountId='0012F00000al0CtQAI' AND Title LIKE 'Application Developer'

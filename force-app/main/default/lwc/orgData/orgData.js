@@ -1,19 +1,12 @@
 import { LightningElement, track, wire } from "lwc";
 import { getRecordUi } from "lightning/uiRecordApi";
+import getApplicationDeveloperContacts from "@salesforce/apex/OrgDataController.getApplicationDeveloperContacts";
+import getCustomerSuccessContacts from "@salesforce/apex/OrgDataController.getCustomerSuccessContacts";
+import getAllContacts from "@salesforce/apex/OrgDataController.getAllContacts";
 
 const DEFAULT_COLUMN_DATA = [
-  { label: "Account Name", fieldName: "Name" },
-  { label: "Email Domain", fieldName: "email_domain__c" },
-  {
-    label: "Number of Employees",
-    fieldName: "NumberOfEmployees",
-    type: "number"
-  },
-  { label: "Phone", fieldName: "Phone", type: "phone" },
-  { label: "Billing Street", fieldName: "BillingStreet" },
-  { label: "Billing City", fieldName: "BillingCity" },
-  { label: "Billing State", fieldName: "BillingState" },
-  { label: "Billing Postalcode", fieldName: "BillingPostalCode" }
+  { label: "Last Name", fieldName: "LastName" },
+  { label: "Title", fieldName: "Title" }
 ];
 
 const DEFAULT_FIELD_DATA = {
@@ -29,19 +22,18 @@ const DEFAULT_FIELD_DATA = {
 
 export default class OrgData extends LightningElement {
   @track selectedRecordId = "0012F00000al0CsQAI";
-  possibleFields = {
-    Name: "Name",
-    email_domain__c: "Email Domain",
-    NumberOfEmployees: "NumberOfEmployees",
-    Phone: "Phone",
-    BillingStreet: "BillingStreet",
-    BillingCity: "BillingCity",
-    BillingState: "BillingState",
-    BillingPostalCode: "BillingPostalCode"
-  };
   @track fieldValues = { ...DEFAULT_FIELD_DATA };
   @track columns = Array.from(DEFAULT_COLUMN_DATA);
   @track selectedFieldValues = Object.keys(DEFAULT_FIELD_DATA);
+
+  @wire(getCustomerSuccessContacts, { selectedRecordId: "$selectedRecordId" })
+  customerSuccessContacts;
+  @wire(getApplicationDeveloperContacts, {
+    selectedRecordId: "$selectedRecordId"
+  })
+  applicationDeveloperContacts;
+  @wire(getAllContacts, { selectedRecordId: "$selectedRecordId" })
+  allContacts;
 
   @wire(getRecordUi, {
     recordIds: [
@@ -64,30 +56,16 @@ export default class OrgData extends LightningElement {
   records;
 
   get totalContacts() {
-    //TODO: implement
-    return [];
+    if (this.allContacts.data === undefined) return 0;
+    return this.allContacts.data.length;
   }
 
-  handleFieldChange({ detail: { value: selectedRecordId } }) {
-    this.customizeFetchedData();
-    this.selectedRecordId = selectedRecordId;
+  get checkboxTooltip() {
+    return "Allows selection of fields you wish to retrieve for business selected in dropdown";
   }
 
-  createColumnStructure() {
-    this.columns = DEFAULT_COLUMN_DATA.filter(
-      column => column.fieldName in this.fieldValues
-    );
-  }
-
-  customizeFetchedData() {
-    this.fieldValues = this.selectedFieldValues.reduce((map, key) => {
-      map[key] = DEFAULT_FIELD_DATA[key];
-      return map;
-    }, {});
-  }
-
-  handleDataChange(evt) {
-    this.selectedFieldValues = evt.detail.value;
+  get dropdownTooltip() {
+    return "Select a company name from the Dropdown to see summary information about it and its related Contacts";
   }
 
   get checkboxOptions() {
@@ -145,5 +123,27 @@ export default class OrgData extends LightningElement {
     });
 
     return records;
+  }
+
+  handleFieldChange({ detail: { value: selectedRecordId } }) {
+    this.generateFieldValues();
+    this.selectedRecordId = selectedRecordId;
+  }
+
+  handleDataChange(evt) {
+    this.selectedFieldValues = evt.detail.value;
+  }
+
+  createColumnStructure() {
+    this.columns = DEFAULT_COLUMN_DATA.filter(
+      column => column.fieldName in this.fieldValues
+    );
+  }
+
+  generateFieldValues() {
+    this.fieldValues = this.selectedFieldValues.reduce(
+      (map, key) => (map[key] = DEFAULT_FIELD_DATA[key]),
+      {}
+    );
   }
 }

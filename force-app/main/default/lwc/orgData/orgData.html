@@ -1,38 +1,42 @@
 <template>
     <div class="main">
         <div class='header-wrapper'>
+            <div class="slds-p-around_medium lgc-bg">
+                <lightning-helptext content={dropdownTooltip}></lightning-helptext>
+            </div>
             <lightning-combobox name="record" label="" value={selectedRecordId} placeholder="Select A Record To View"
                 options={dropdownOptions} onchange={handleFieldChange}></lightning-combobox>
-            <lightning-checkbox-group name="Data To View" label="Data to View" variant="label-stacked" options={checkboxOptions}
-                value={selectedFieldValues} onchange={handleDataChange} class="checkbox-wrapper">
+                <div class="slds-p-around_medium lgc-bg">
+                    <lightning-helptext content={checkboxTooltip}></lightning-helptext>
+                </div>
+            <lightning-checkbox-group name="Data To View" label="Data to View" variant="label-stacked"
+                options={checkboxOptions} value={selectedFieldValues} onchange={handleDataChange}
+                class="checkbox-wrapper">
             </lightning-checkbox-group>
         </div>
-        <lightning-record-view-form record-id={selectedRecordId} object-api-name="Account">
-            <div class="slds-box">
-                <template for:each={summaryRecordsFields} for:item="field">
-                    <lightning-output-field key={field.value} field-name={field.value}>
-                    </lightning-output-field>
-                </template>
-            </div>
-        </lightning-record-view-form>
-        <div class="contacts-wrapper">
-            <div class="customer-success">
-                <lightning-datatable
-            key-field="Name"
-            data={recordsData}
-            columns={columns}
-          >
-          </lightning-datatable>
-            </div>
-            <div class="application-developer">
-                <lightning-datatable
-            key-field="Name"
-            data={recordsData}
-            columns={columns}
-          >
-          </lightning-datatable>
+        <div class="mid-section-wrapper">
+            <lightning-record-view-form record-id={selectedRecordId} object-api-name="Account">
+                <div class="slds-box">
+                    <template for:each={summaryRecordsFields} for:item="field">
+                        <lightning-output-field key={field.value} field-name={field.value}>
+                        </lightning-output-field>
+                    </template>
+                    <p if:true={allContacts.data}>Total Contacts: <span>{allContacts.data.length}</span></p>
+                </div>
+            </lightning-record-view-form>
+            <div class="contacts-wrapper">
+                <div class="customer-success">
+                    <p>Related Contacts: Customer Success</p>
+                    <lightning-datatable key-field="Name" data={customerSuccessContacts.data} columns={columns}>
+                    </lightning-datatable>
+                </div>
+                <div class="application-developer">
+                    <p>Related Contacts: Application Developer</p>
+                    <lightning-datatable key-field="Name" data={applicationDeveloperContacts.data} columns={columns}>
+                    </lightning-datatable>
+                </div>
             </div>
         </div>
     </div>
-   
+
 </template>
