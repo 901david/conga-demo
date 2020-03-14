@@ -15,7 +15,6 @@ public class OrgDataControllerTest {
     insert myAccount;
 
     // Add contacts and check for correct data
-    List<Contact> myContactList = new List<Contact>();
     Contact contactOne = new Contact(
       lastname = 'Johnson',
       title = 'Customer Success',
@@ -34,12 +33,8 @@ public class OrgDataControllerTest {
     insert contactOne;
     insert contactTwo;
     insert contactThree;
-
-    myContactList.Add(contactOne);
-    myContactList.Add(contactTwo);
-    myContactList.Add(contactThree);
-
+    System.debug('here is the ID' + myAccount.Id);
     Contact[] populatedResult = OrgDataController.getAllContacts(myAccount.Id);
-    System.assertEquals(myContactList, populatedResult);
+    System.assertEquals(3, populatedResult.size());
   }
 }
