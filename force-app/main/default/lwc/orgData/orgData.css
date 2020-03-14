@@ -13,9 +13,10 @@
 
 .header-wrapper {
   display: grid;
-  grid-template-columns: 15px 1fr 15px 1fr;
+  grid-template-columns: 25px 1fr 25px 1fr;
   grid-gap: 15px;
   background: white;
+  justify-content: center;
 }
 
 .contacts-wrapper {
@@ -29,6 +30,15 @@
 .customer-success,
 .application-developer {
   text-align: center;
+  min-height: 140px;
+}
+
+.customer-success,
+.application-developer > p {
+  background: #fafaf9;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 5px;
 }
 
 .company-name {
@@ -38,4 +48,12 @@
 .mid-section-wrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+}
+
+.no-data-wrapper {
+  height: 300px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

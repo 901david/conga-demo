@@ -6,9 +6,9 @@
             </div>
             <lightning-combobox name="record" label="" value={selectedRecordId} placeholder="Select A Record To View"
                 options={dropdownOptions} onchange={handleFieldChange}></lightning-combobox>
-                <div class="slds-p-around_medium lgc-bg">
-                    <lightning-helptext content={checkboxTooltip}></lightning-helptext>
-                </div>
+            <div class="slds-p-around_medium lgc-bg">
+                <lightning-helptext content={checkboxTooltip}></lightning-helptext>
+            </div>
             <lightning-checkbox-group name="Data To View" label="Data to View" variant="label-stacked"
                 options={checkboxOptions} value={selectedFieldValues} onchange={handleDataChange}
                 class="checkbox-wrapper">
@@ -17,6 +17,9 @@
         <div class="mid-section-wrapper">
             <lightning-record-view-form record-id={selectedRecordId} object-api-name="Account">
                 <div class="slds-box">
+                    <div if:false={allContacts.data} class="no-data-wrapper">
+                        <p>No Data Available</p>
+                    </div>
                     <template for:each={summaryRecordsFields} for:item="field">
                         <lightning-output-field key={field.value} field-name={field.value}>
                         </lightning-output-field>

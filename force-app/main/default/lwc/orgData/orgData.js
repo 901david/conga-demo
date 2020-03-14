@@ -1,31 +1,19 @@
 import { LightningElement, track, wire } from "lwc";
-import { getRecordUi } from "lightning/uiRecordApi";
+
 import getApplicationDeveloperContacts from "@salesforce/apex/OrgDataController.getApplicationDeveloperContacts";
 import getCustomerSuccessContacts from "@salesforce/apex/OrgDataController.getCustomerSuccessContacts";
 import getAllContacts from "@salesforce/apex/OrgDataController.getAllContacts";
-
-const DEFAULT_COLUMN_DATA = [
-  { label: "Last Name", fieldName: "LastName" },
-  { label: "Title", fieldName: "Title" }
-];
-
-const DEFAULT_FIELD_DATA = {
-  Name: "Name",
-  email_domain__c: "Email Domain",
-  NumberOfEmployees: "NumberOfEmployees",
-  Phone: "Phone",
-  BillingStreet: "BillingStreet",
-  BillingCity: "BillingCity",
-  BillingState: "BillingState",
-  BillingPostalCode: "BillingPostalCode"
-};
+import getAllAccountInfo from "@salesforce/apex/OrgDataController.getAllAccountInfo";
+import { DEFAULT_COLUMN_DATA, DEFAULT_FIELD_DATA } from "./constants";
 
 export default class OrgData extends LightningElement {
-  @track selectedRecordId = "0012F00000al0CsQAI";
+  @track selectedRecordId;
   @track fieldValues = { ...DEFAULT_FIELD_DATA };
   @track columns = Array.from(DEFAULT_COLUMN_DATA);
   @track selectedFieldValues = Object.keys(DEFAULT_FIELD_DATA);
 
+  @wire(getAllAccountInfo)
+  allAccountInfo;
   @wire(getCustomerSuccessContacts, { selectedRecordId: "$selectedRecordId" })
   customerSuccessContacts;
   @wire(getApplicationDeveloperContacts, {
@@ -34,26 +22,6 @@ export default class OrgData extends LightningElement {
   applicationDeveloperContacts;
   @wire(getAllContacts, { selectedRecordId: "$selectedRecordId" })
   allContacts;
-
-  @wire(getRecordUi, {
-    recordIds: [
-      "0012F00000al0CsQAI",
-      "0012F00000al0CtQAI",
-      "0012F00000al0CuQAI",
-      "0012F00000al0CvQAI",
-      "0012F00000al0CwQAI",
-      "0012F00000al0CxQAI",
-      "0012F00000al0CyQAI",
-      "0012F00000al0CzQAI",
-      "0012F00000al0D0QAI",
-      "0012F00000al0D1QAI",
-      "0012F00000al0D2QAI",
-      "0012F00000al0D3QAI"
-    ],
-    layoutTypes: "Full",
-    modes: "View"
-  })
-  records;
 
   get totalContacts() {
     if (this.allContacts.data === undefined) return 0;
@@ -71,63 +39,31 @@ export default class OrgData extends LightningElement {
   get checkboxOptions() {
     return Object.keys(DEFAULT_FIELD_DATA).map(key => ({
       value: key,
-      label: DEFAULT_FIELD_DATA[key],
-      key
+      label: DEFAULT_FIELD_DATA[key]
     }));
   }
 
   get summaryRecordsFields() {
     return Object.keys(this.fieldValues).map(key => ({
       value: key,
-      label: this.fieldValues[key],
-      key
+      label: this.fieldValues[key]
     }));
   }
 
   get dropdownOptions() {
-    const data = this.recordsData.map(row => ({
-      value: row.RecordId,
-      label: row.Name,
-      key: row.RecordId
+    if (this.allAccountInfo.data === undefined) return [];
+
+    return this.allAccountInfo.data.map(({ Id, Name }) => ({
+      value: Id,
+      label: Name
     }));
-
-    return data;
-  }
-
-  get recordsData() {
-    const recordsProxy = Object.assign({}, this.records.data).records;
-    const recordsKeys = Object.keys(Object.assign({}, recordsProxy));
-
-    const records = recordsKeys.map(RecordId => {
-      const {
-        Name: { value: BaseName },
-        Phone: { value: Phone },
-        NumberOfEmployees: { value: NumberOfEmployees },
-        BillingStreet: { value: BillingStreet },
-        BillingCity: { value: BillingCity },
-        BillingState: { value: BillingState },
-        BillingPostalCode: { value: BillingPostalCode }
-      } = Object.assign(recordsProxy[RecordId]).fields;
-      const Name = BaseName.replace(/&amp;/g, "&");
-
-      return {
-        RecordId,
-        Name,
-        Phone,
-        NumberOfEmployees,
-        BillingStreet,
-        BillingCity,
-        BillingState,
-        BillingPostalCode
-      };
-    });
-
-    return records;
   }
 
   handleFieldChange({ detail: { value: selectedRecordId } }) {
+    console.log("Handle field chane called", this.selectedRecordId);
     this.generateFieldValues();
     this.selectedRecordId = selectedRecordId;
+    console.log("Handle field chane finished", this.selectedRecordId);
   }
 
   handleDataChange(evt) {
@@ -141,9 +77,9 @@ export default class OrgData extends LightningElement {
   }
 
   generateFieldValues() {
-    this.fieldValues = this.selectedFieldValues.reduce(
-      (map, key) => (map[key] = DEFAULT_FIELD_DATA[key]),
-      {}
-    );
+    this.fieldValues = this.selectedFieldValues.reduce((map, key) => {
+      map[key] = DEFAULT_FIELD_DATA[key];
+      return map;
+    }, {});
   }
 }
