@@ -5,3 +5,7 @@
 
 SELECT LastName, Title FROM Contact WHERE AccountId='0012F00000al0CtQAI' AND Title LIKE 'Customer Success'
 SELECT LastName, Title FROM Contact WHERE AccountId='0012F00000al0CtQAI' AND Title LIKE 'Application Developer'
+
+SELECT Website, Id FROM Account
+
+SELECT Website, email_domain__c FROM Account WHERE Id='0012F00000al0CsQAI'

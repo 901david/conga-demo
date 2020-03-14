@@ -57,3 +57,22 @@
   justify-content: center;
   align-items: center;
 }
+
+.main-text,
+.sub-text {
+  margin-top: 0;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.main-text {
+  color: #3e3e3b;
+}
+
+.sub-text {
+  color: #080707;
+}
+
+.slds-checkbox {
+  background: purple !important;
+}

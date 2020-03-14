@@ -24,7 +24,8 @@
                         <lightning-output-field key={field.value} field-name={field.value}>
                         </lightning-output-field>
                     </template>
-                    <p if:true={allContacts.data}>Total Contacts: <span>{allContacts.data.length}</span></p>
+                    <p class="main-text" if:true={allContacts.data}>Total Contacts: </p>
+                    <p class="sub-text" if:true={allContacts.data}>{allContacts.data.length}</p>
                 </div>
             </lightning-record-view-form>
             <div class="contacts-wrapper">
