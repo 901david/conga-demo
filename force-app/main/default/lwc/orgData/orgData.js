@@ -60,10 +60,8 @@ export default class OrgData extends LightningElement {
   }
 
   handleFieldChange({ detail: { value: selectedRecordId } }) {
-    console.log("Handle field chane called", this.selectedRecordId);
     this.generateFieldValues();
     this.selectedRecordId = selectedRecordId;
-    console.log("Handle field chane finished", this.selectedRecordId);
   }
 
   handleDataChange(evt) {
