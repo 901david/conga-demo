@@ -63,6 +63,15 @@ public class OrgDataControllerTest {
   }
 
   @isTest
+  static void TestGetApplicationDeveloperContactsBlank() {
+    // Should return Blank list when no  id
+    Contact[] emptyResult = OrgDataController.getApplicationDeveloperContacts(
+      ''
+    );
+    System.assertEquals(new List<Contact>(), emptyResult);
+  }
+
+  @isTest
   static void TestGetApplicationDeveloperContacts() {
     //should return correct length of all contacts that have Application Developer in Title
     String accountId = OrgDataControllerTest.setUpAccountWithContacts();
@@ -70,6 +79,13 @@ public class OrgDataControllerTest {
       accountId
     );
     System.assertEquals(1, populatedResult.size());
+  }
+
+  @isTest
+  static void TestGetCustomerSuccessContactsBlank() {
+    // Should return Blank list when no  id
+    Contact[] emptyResult = OrgDataController.getCustomerSuccessContacts('');
+    System.assertEquals(new List<Contact>(), emptyResult);
   }
 
   @isTest
