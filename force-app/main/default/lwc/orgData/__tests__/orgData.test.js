@@ -42,7 +42,7 @@ describe("OrgData", () => {
       is: OrgData
     });
     document.body.appendChild(element);
-    console.log(element.shadowRoot.innerHTML);
+
     getApplicationDeveloperContactsWireAdapter.emit(applicationContactsData);
     getCustomerSuccessContactsWireAdapter.emit(CustomerContactsData);
     getAllContactsWireAdapter.emit(allContactsData);
@@ -119,24 +119,5 @@ describe("OrgData", () => {
       ".application-developer > lightning-datatable"
     );
     expect(customerSuccessTable).toBeTruthy();
-  });
-
-  test("renders with no data wrapper", async () => {
-    // await Promise.resolve();
-    const noDataWrapper = element.shadowRoot.querySelector(".no-data-wrapper");
-    expect(noDataWrapper).toBeTruthy();
-  });
-
-  // test("renders with no data wrapper with correct textt", async () => {
-  //   await Promise.resolve();
-  //   const noDataWrapperText = element.shadowRoot.querySelector(
-  //     ".no-data-wrapper > p"
-  //   );
-  //   expect(noDataWrapperText.textContent).toEqual("No Data  Available");
-  // });
-
-  test("should return  correct total Contacts", () => {
-    console.log("element", element);
-    expect(element.totalContacts).toEqual(0);
   });
 });
