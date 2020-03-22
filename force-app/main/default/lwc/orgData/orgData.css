@@ -13,7 +13,7 @@
 
 .header-wrapper {
   display: grid;
-  grid-template-columns: 25px 1fr 25px 1fr;
+  grid-template-columns: 25px 1fr 25px 2fr;
   grid-gap: 15px;
   background: white;
   justify-content: center;
@@ -73,6 +73,12 @@
   color: #080707;
 }
 
-.slds-checkbox {
+[data-class="checkbox-wrapper"].THIS .slds-form-element__control {
   background: purple !important;
+}
+
+.checkbox-wrapper {
+  display: grid;
+  white-space: nowrap;
+  grid-template-columns: repeat(4, 1fr);
 }

@@ -68,12 +68,6 @@ export default class OrgData extends LightningElement {
     this.selectedFieldValues = evt.detail.value;
   }
 
-  createColumnStructure() {
-    this.columns = DEFAULT_COLUMN_DATA.filter(
-      column => column.fieldName in this.fieldValues
-    );
-  }
-
   generateFieldValues() {
     this.fieldValues = this.selectedFieldValues.reduce((map, key) => {
       map[key] = DEFAULT_FIELD_DATA[key];
