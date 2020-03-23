@@ -49,8 +49,8 @@
 
 ### Initial Page Load
 
-![logo]: https://github.com/901david/conga-demo/blob/master/images/initial.png "Initial Page load"
+![Initial Page Load](/images/initial.png)
 
 ### With Data Loaded
 
-![logo]: https://github.com/901david/conga-demo/blob/master/images/withdata.png "Initial Page load"
+![Page Load with Data](/images/withdata.png)
