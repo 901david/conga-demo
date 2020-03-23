@@ -1,6 +1,4 @@
-# Conga Demo
-
-### By: David Hammond
+# Conga Demo: By David Hammond
 
 ## Front-End UI/UX
 
