@@ -48,3 +48,11 @@
 - Front end tests felt almost worthless. Not comprehensive. I struggled to get the tests to deep render. I would need to read some additional documentation and understand how to more effectively teat these components.
 
 ## Screen-Shots
+
+### Initial Page Load
+
+[logo]: https://github.com/901david/conga-demo/blob/master/images/initial.png "Initial Page load"
+
+### With Data Loaded
+
+[logo]: https://github.com/901david/conga-demo/blob/master/images/withdata.png "Initial Page load"
